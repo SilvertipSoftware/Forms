@@ -1,0 +1,27 @@
+{
+    "name": "silvertipsoftware/forms",
+    "description": "Form builder classes and models",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Andre Sonnichsen",
+            "email": "andre@silvertipsoftware.com",
+            "homepage": "http://silvertipsoftware.com/"
+        }
+    ],
+    "homepage": "https://github.com/SilvertipSoftware/Forms",
+    "keywords": ["Laravel", "Forms", "FormBuilder"],
+    "require": {
+        "silvertipsoftware/rest-router": "^0.0.3"
+    },
+    "autoload": {
+        "psr-4": {
+            "SilvertipSoftware\\Forms\\": "src/"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "SilvertipSoftware\\Forms\\Tests\\": "tests"
+        }
+    }
+}

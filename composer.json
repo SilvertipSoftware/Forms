@@ -14,6 +14,9 @@
     "require": {
         "silvertipsoftware/rest-router": "^0.0.3"
     },
+    "require-dev": {
+        "orchestra/testbench": "^4.0"
+    },
     "autoload": {
         "psr-4": {
             "SilvertipSoftware\\Forms\\": "src/"

@@ -12,7 +12,10 @@
     "homepage": "https://github.com/SilvertipSoftware/Forms",
     "keywords": ["Laravel", "Forms", "FormBuilder"],
     "require": {
-        "silvertipsoftware/rest-router": "^0.0.3"
+        "silvertipsoftware/rest-router": "^0.1.0"
+    },
+    "require-dev": {
+        "orchestra/testbench": "^4.0"
     },
     "autoload": {
         "psr-4": {

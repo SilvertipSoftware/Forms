@@ -83,7 +83,7 @@ trait FormTagHelper {
 
     private function extraTagsForForm(&$options) {
         $csrf_token = Arr::pull($options, 'csrf_token');
-        $method = strtolower(Arr::pull($options, 'method'));
+        $method = strtolower(Arr::pull($options, 'method', 'post'));
 
         $tags = '';
         switch ($method) {
@@ -146,7 +146,7 @@ trait FormTagHelper {
         return $this->tag('input', [
             'type' => 'hidden',
             'name' => '_method',
-            'value' => $method
+            'value' => $method ?? 'post'
         ], false, false);
     }
 
@@ -159,17 +159,16 @@ trait FormTagHelper {
     }
 
     private function utf8EnforcerTag() {
-        return new HtmlString('<input name="utf8" type="hidden" value="&#x2713;" />');
+        return new HtmlString('<input type="hidden" name="utf8" value="&#x2713;" />');
     }
 
     private function setDefaultDisableWith($value, &$options) {
         $data = Arr::get($options, 'data', []);
 
-        if (Arr::get($data, 'disable_with', null) !== false) {
-            $data['disable_with'] = Arr::get($data, 'disable_with', $value);
-            $options['data'] = $data;
+        if (Arr::get($data, 'disable-with', null) !== false) {
+            $data['disable-with'] = Arr::get($data, 'disable-with', $value);
         } else {
-            unset($data['disable_with']);
+            unset($data['disable-with']);
         }
 
         $options['data'] = $data;

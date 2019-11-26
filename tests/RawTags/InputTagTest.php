@@ -2,19 +2,11 @@
 
 namespace SilvertipSoftware\Forms\Tests\RawTags;
 
-use Illuminate\Support\HtmlString;
 use SilvertipSoftware\Forms\Tests\TestCase;
 
 class InputTagTest extends TestCase
 {
     use GenericTagTestHelpers;
-
-    public function testItMakesAnHtmlString()
-    {
-        $result = \Form::textFieldTag('SOMENAME');
-
-        $this->assertInstanceOf(HtmlString::class, $result);
-    }
 
     public function testItMakesAnTextInputTag()
     {

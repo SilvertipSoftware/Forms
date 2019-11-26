@@ -37,7 +37,7 @@ class CheckBox extends Base {
             $hidden = $this->hiddenFieldForCheckBox($options);
             $tags = $hidden . $checkbox;
         } else {
-            $tags = $checkbox;
+            $tags = '' . $checkbox;
         }
 
 

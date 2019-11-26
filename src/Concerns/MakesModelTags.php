@@ -4,28 +4,35 @@ namespace SilvertipSoftware\Forms\Concerns;
 
 use SilvertipSoftware\Forms\Tags;
 
-trait MakesModelTags {
+trait MakesModelTags
+{
 
-    public function textFieldWithObject($object, $method, $options = []) {
+    public function textFieldWithObject($object, $method, $options = [])
+    {
         $tag = new Tags\TextField($object, $method, $this, $options);
         return $tag->render();
     }
 
-    public function numberFieldWithObject($object, $method, $options = []) {
+    public function numberFieldWithObject($object, $method, $options = [])
+    {
         $tag = new Tags\NumberField($object, $method, $this, $options);
         return $tag->render();
     }
 
-    public function hiddenFieldWithObject($object, $method, $options = []) {
+    public function hiddenFieldWithObject($object, $method, $options = [])
+    {
         $tag = new Tags\HiddenField($object, $method, $this, $options);
         return $tag->render();
     }
 
-    public function labelWithObject($object, $method, $text = null, $options = []) {
+    public function labelWithObject($object, $method, $text = null, $options = [])
+    {
         $tag = new Tags\Label($object, $method, $this, $text, $options);
         return $tag->render();
     }
-    public function checkBoxWithObject($object, $method, $options = [], $checkedValue = "1", $uncheckedValue = "0") {
+
+    public function checkBoxWithObject($object, $method, $options = [], $checkedValue = "1", $uncheckedValue = "0")
+    {
         $tag = new Tags\CheckBox($object, $method, $this, $checkedValue, $uncheckedValue, $options);
         return $tag->render();
     }

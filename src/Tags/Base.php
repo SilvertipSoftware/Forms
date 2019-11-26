@@ -38,9 +38,7 @@ class Base {
         }
 
         $this->object = Arr::pull($options, 'object');
-        // if (!$this->object) {
-        //     throw new \Exception('no model' . json_encode([$objectName, $attr]));
-        // }
+
         $this->skipDefaultIds = Arr::pull($options, 'skip_default_ids');
         $this->options = $options;
 
@@ -88,7 +86,7 @@ class Base {
         if ($tagValue == null) {
             $this->addDefaultNameAndId($options);
         } else {
-            $specifiedId = $options['id'];
+            $specifiedId = Arr::get($options, 'id');
             $this->addDefaultNameAndId($options);
             if (empty($specifiedId) && array_key_exists('id', $options)) {
                 $options['id'] .= '_' . $this->sanitizedValue($tagValue);

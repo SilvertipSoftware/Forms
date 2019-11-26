@@ -2,13 +2,14 @@
 
 namespace SilvertipSoftware\Forms;
 
+use Closure;
 use Illuminate\Support\Arr;
 use Illuminate\Support\HtmlString;
 use Illuminate\Support\Str;
 
 trait TagHelper {
 
-    public function tag($name, $options = null, $open = false, $mustEscape = true) {
+    public function tag($name = null, $options = null, $open = false, $mustEscape = true) {
         if ($name == null) {
             return $this->newTagBuilder();
         } else {
@@ -24,11 +25,11 @@ trait TagHelper {
     }
 
     public function contentTag($name, $contentOrOptions, $options = null, $mustEscape = true, $block = null) {
-        if (is_callable($block)) {
+        if ($block instanceof Closure) {
             if (is_array($contentOrOptions)) {
                 $options = $contentOrOptions;
             }
-            return $this->newTagBuilder->contentTagString($name, $block.call($this), $options, $mustEscape);
+            return $this->newTagBuilder()->contentTagString($name, $block->call($this), $options, $mustEscape);
         }
 
         return $this->newTagBuilder()->contentTagString($name, $contentOrOptions, $options, $mustEscape);
@@ -138,7 +139,7 @@ trait TagHelper {
                 'visible',
             ];
 
-            private const TAG_PREFIXES = ['aria', 'data'];
+            private const TAG_PREFIXES = ['aria', 'data', 'v'];
 
             private const PRE_CONTENT_STRINGS = [
                 'textarea' => "\n"

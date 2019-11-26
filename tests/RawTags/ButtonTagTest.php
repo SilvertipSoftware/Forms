@@ -2,19 +2,11 @@
 
 namespace SilvertipSoftware\Forms\Tests\RawTags;
 
-use Illuminate\Support\HtmlString;
 use SilvertipSoftware\Forms\Tests\TestCase;
 
 class ButtonTagTest extends TestCase
 {
     use GenericTagTestHelpers;
-
-    public function testItMakesAnHtmlString()
-    {
-        $result = \Form::buttonTag();
-
-        $this->assertInstanceOf(HtmlString::class, $result);
-    }
 
     public function testItMakesALabelTag()
     {

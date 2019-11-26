@@ -2,8 +2,17 @@
 
 namespace SilvertipSoftware\Forms\Tests\RawTags;
 
+use Illuminate\Support\HtmlString;
+
 trait GenericTagTestHelpers
 {
+
+    public function testItMakesAnHtmlString()
+    {
+        $result = $this->makeTagWithOptions([]);
+
+        $this->assertInstanceOf(HtmlString::class, $result);
+    }
 
     public function testItMakesDataAttrs()
     {
@@ -27,6 +36,20 @@ trait GenericTagTestHelpers
         $result = $this->makeTagWithOptions($options);
 
         $this->assertStringContainsString('aria-role="button"', $result);
+    }
+
+    public function testItMakesVueAttrs()
+    {
+        $options = [
+            'v' => [
+                'for' => 'i in list',
+                'bind:id' => 'var'
+            ]
+        ];
+        $result = $this->makeTagWithOptions($options);
+
+        $this->assertStringContainsString('v-for="i in list"', $result);
+        $this->assertStringContainsString('v-bind:id="var"', $result);
     }
 
     public function testItTreatsBooleanAttributesSpecially()

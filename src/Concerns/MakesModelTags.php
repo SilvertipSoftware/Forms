@@ -19,6 +19,12 @@ trait MakesModelTags
         return $tag->render();
     }
 
+    public function passwordFieldWithObject($object, $method, $options = [])
+    {
+        $tag = new Tags\PasswordField($object, $method, $this, $options);
+        return $tag->render();
+    }
+
     public function hiddenFieldWithObject($object, $method, $options = [])
     {
         $tag = new Tags\HiddenField($object, $method, $this, $options);

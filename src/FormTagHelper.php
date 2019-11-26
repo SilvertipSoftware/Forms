@@ -42,6 +42,15 @@ trait FormTagHelper {
         ], $options));
     }
 
+    public function passwordFieldTag($name, $value = null, $options = []) {
+        return $this->tag('input', array_merge([
+            'type' => 'password',
+            'name' => $name,
+            'id' => $this->sanitizeToId($name),
+            'value' => $value
+        ], $options));
+    }
+
     public function hiddenFieldTag($name, $value = null, $options = []) {
         return $this->tag('input', array_merge([
             'type' => 'hidden',

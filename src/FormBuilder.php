@@ -9,6 +9,7 @@ use Illuminate\Support\HtmlString;
 
 class FormBuilder {
     use ModelUtils;
+    use Concerns\TranslatesModels;
 
     public $objectName;
     public $object;
@@ -68,11 +69,12 @@ class FormBuilder {
         return $this->template->textAreaWithObject($this->objectName, $method, $this->objectify($options));
     }
 
-    public function submit($value = "Save changes", $options = []) {
+    public function submit($value = null, $options = []) {
         if (is_array($value)) {
             $options = $value;
-            $value = "Save changes";
+            $value = null;
         }
+        $value = $value ?? $this->defaultSubmitValue();
         return $this->template->submitTag($value, $options);
     }
 
@@ -195,6 +197,13 @@ class FormBuilder {
         return $content;
     }
 
+    protected function defaultSubmitValue()
+    {
+        $model = $this->convertToModel($this->object);
+        $keyPart = $model ? ($model->exists ? 'update' : 'create') : 'submit';
+        return $this->translate($keyPart, null, 'submit');
+    }
+
     protected function objectify(&$options) {
         $options['object'] = $this->object;
         $result = array_merge($this->defaultOptions, $options);
@@ -256,6 +265,6 @@ class FormBuilder {
     }
 
     protected function isNestedAttributesRelation($name) {
-        return $this->object->isNestedAttribute($name);
+        return method_exists($this->object, 'isNestedAttribute') && $this->object->isNestedAttribute($name);
     }
 }

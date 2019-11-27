@@ -73,6 +73,16 @@ class FormTagOptionsTest extends TestCase
         $this->assertStringNotContainsString('data-remote="1"', $result);
     }
 
+    public function testCanMakeMultipartForm()
+    {
+        $options = [
+            'multipart' => true
+        ];
+        $result = \Form::formTag('/abc', $options);
+
+        $this->assertStringContainsString('enctype="multipart/form-data"', $result);
+    }
+
     public function testCanPreventUtf8Marker()
     {
         $htmlOptions = [

@@ -24,16 +24,20 @@ class Base {
     protected $autoIndex;
 
     public function __construct($objectName, $attr, $helper, $options = []) {
+        $this->objectName = $objectName;
         $this->attr = $attr;
         $this->helper = $helper;
 
         $temp = preg_replace('/\[\]$/', '', $objectName);
-        if ($temp == $objectName) {
+        $altered = $temp != $objectName;
+        if (!$altered) {
             $this->objectName = preg_replace(('/\[\]\]$/'), ']', $temp);
-            if ($this->objectName != $temp) {
+            $altered = $temp != $objectName;
+            if ($altered) {
                 $indexable = substr($this->objectName, 0, -1);
             }
         } else {
+            $this->objectName = $temp;
             $indexable = $temp;
         }
 
@@ -42,7 +46,7 @@ class Base {
         $this->skipDefaultIds = Arr::pull($options, 'skip_default_ids');
         $this->options = $options;
 
-        if ($this->objectName != $objectName) {
+        if ($altered) {
             $this->generateIndexedNames = true;
             $this->autoIndex = $this->getAutoIndex($indexable);
         } else {
@@ -111,7 +115,7 @@ class Base {
     protected function tagName($multiple = false, $index = null) {
         if (empty($this->objectName)) {
             return $this->sanitizedMethodName() . ($multiple ? '[]' : '');
-        } elseif ($index) {
+        } elseif ($index !== null) {
             return $this->objectName
                 . '[' . $index . '][' . $this->sanitizedMethodName() . ']'
                 . ($multiple ? '[]' : '');
@@ -123,7 +127,7 @@ class Base {
     protected function tagId($index = null) {
         if (empty($this->objectName)) {
             return $this->sanitizedMethodName();
-        } elseif ($index) {
+        } elseif ($index !== null) {
             return $this->sanitizedObjectName() . '_' . $index . '_' . $this->sanitizedMethodName();
         } else {
             return $this->sanitizedObjectName() . '_' . $this->sanitizedMethodName();

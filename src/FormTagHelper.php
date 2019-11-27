@@ -122,9 +122,13 @@ trait FormTagHelper {
         return $tags;
     }
 
-    private function htmlOptionsForForm($urlForOptions, $options) {
+    private function htmlOptionsForForm($urlForOptions, &$options) {
         $html = Arr::pull($options, 'html') ?? [];
         $htmlOptions = array_merge(Arr::only($options, ['id', 'class', 'method', 'data']), $html);
+
+        if (Arr::pull($options, 'multipart')) {
+            $htmlOptions['enctype'] = "multipart/form-data";
+        }
 
         if (!Arr::pull($options, 'local') && static::$formWithGeneratesRemoteForms == true) {
             $htmlOptions['data-remote'] = true;

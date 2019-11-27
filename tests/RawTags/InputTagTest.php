@@ -55,6 +55,13 @@ class InputTagTest extends TestCase
         $this->assertStringContainsString('type="number"', $result);
     }
 
+    public function testPasswordTypeHelper()
+    {
+        $result = \Form::passwordFieldTag('field');
+
+        $this->assertStringContainsString('type="password"', $result);
+    }
+
     public function testHiddenTypeHelper()
     {
         $result = \Form::hiddenFieldTag('field');

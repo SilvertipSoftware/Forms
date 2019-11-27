@@ -7,7 +7,7 @@ use Illuminate\Support\Str;
 
 trait ModelUtils {
 
-    public function convertToModel($obj) {
+    protected function convertToModel($obj) {
         if (method_exists($obj, 'toModel')) {
             return call_user_func([$obj, 'toModel']);
         }
@@ -15,7 +15,7 @@ trait ModelUtils {
         return $obj;
     }
 
-    public function modelNameFrom($obj) {
+    protected function modelNameFrom($obj) {
         if ($obj == null) {
             return null;
         }
@@ -24,7 +24,7 @@ trait ModelUtils {
         return Str::snake(class_basename(get_class($obj)));
     }
 
-    public function paramKeyFor($obj) {
+    protected function paramKeyFor($obj) {
         return $this->modelNameFrom($obj);
     }
 
@@ -32,4 +32,9 @@ trait ModelUtils {
         $base = class_basename($class);
         return in_array($base, static::$relationsReturningCollections);
     }
+
+    protected function isNestedAttributesRelation($name) {
+        return method_exists($this->object, 'isNestedAttribute') && $this->object->isNestedAttribute($name);
+    }
+
 }

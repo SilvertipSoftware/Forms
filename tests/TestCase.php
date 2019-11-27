@@ -20,6 +20,8 @@ class TestCase extends OrchestraTestCase
         $app->singleton(FormHelper::class, function ($app) {
             return new FormHelper($app);
         });
+
+        $app['config']->set('view.paths', ['tests/views']);
     }
 
     protected function assertSeeTag($tag, $result) {

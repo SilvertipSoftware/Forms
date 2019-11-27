@@ -182,12 +182,4 @@ trait FormTagHelper {
 
         $options['data'] = $data;
     }
-
-    private function promptText($prompt) {
-        if (is_string($prompt)) {
-            return $prompt;
-        }
-
-        return __('ui.select.prompt');
-    }
 }

@@ -29,8 +29,8 @@ trait MakesFormBuilders {
             if (Arr::get($options, 'include_id')) {
                 $ret .= $builder->hiddenField('id');
             }
+            $this->end();
         }
-        $this->end();
         return new HtmlString($ret);
     }
 
@@ -70,7 +70,7 @@ trait MakesFormBuilders {
         return $builder;
     }
 
-    protected function instantiateBuilder($name, $object, $options) {
+    protected function instantiateBuilder(&$name, &$object, $options) {
         if (!is_string($name)) {
             $object = $name;
             $name = $object ? $this->modelNameFrom($object) : $name;

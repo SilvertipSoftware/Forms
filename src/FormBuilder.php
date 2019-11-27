@@ -34,7 +34,15 @@ class FormBuilder {
         $this->defaultOptions = $options ? Arr::only($options, ['index', 'namespace', 'skip_default_ids']) : [];
         $this->defaultHtmlOptions = Arr::except($this->defaultOptions, ['skip_default_ids']);
 
-        $this->autoIndex = null;
+        if (preg_match('/\[\]$/', $this->objectName) === 1) {
+            $temp = preg_replace('/\[\]$/', '', $this->objectName);
+            $object = $object ?? $this->template->getContextVariable($temp);
+            if (method_exists($object, 'getRouteKey')) {
+                $this->autoIndex = $object->getRouteKey();
+            } else {
+                throw new Exception('object[] naming needs a getRouteKey() method on ' . $temp);
+            }
+        }
 
         $this->index = $options['index'] ?? $options['child_index'] ?? null;
     }
@@ -109,6 +117,14 @@ class FormBuilder {
         );
     }
 
+    public function formStartTag() {
+        return $this->template->formTagWithModel($this->object, $this->options);
+    }
+
+    public function end() {
+        return $this->template->end();
+    }
+
     public function fieldsFor($recordName, $recordObject = null, $fieldsOptions = []) {
         if (is_array($recordObject)) {
             $fieldsOptions = $recordObject;
@@ -128,21 +144,21 @@ class FormBuilder {
         }
 
         $objectName = $this->objectName;
-        if (array_key_exists('index', $this->options)) {
-            $index = $this->options['index'];
-        } elseif (!empty($this->autoIndex)) {
-            $objectName = preg_replace('\[\]$', '', $objectName);
+        $index = Arr::get($this->options, 'index');
+        if (!empty($this->autoIndex)) {
+            $objectName = preg_replace('/\[\]$/', '', $objectName);
             $index = $this->autoIndex;
         }
 
-        if ($index ?? false) {
+        if ($index) {
             $recordName = $objectName . '[' . $index . '][' . $recordName . ']';
         } elseif (preg_match('/\[\]$/', $recordName)) {
             $recordName = $objectName
-                . preg_replace('(.*)\[\]$', '[\\1][' . $recordObject->getKey() . ']', $recordName);
+                . preg_replace('/(.*)\[\]$/', '[\\1][' . $recordObject->getKey() . ']', $recordName);
         } else {
             $recordName = $objectName . '[' . $recordName . ']';
         }
+        $fieldsOptions['child_index'] = $index;
 
         return $this->template->fieldsForWithObject($recordName, $recordObject, $fieldsOptions);
     }
@@ -191,7 +207,7 @@ class FormBuilder {
     protected function fieldsForNestedModel($name, $model, &$fieldsOptions) {
         $emitHiddenId = $model->exists
             && Arr::get($fieldsOptions, 'include_id', Arr::get($this->options, 'include_id', true));
-        $fieldOptions['include_id'] = $emitHiddenId;
+        $fieldsOptions['include_id'] = $emitHiddenId;
 
         $content = $this->template->fieldsForWithObject($name, $model, $fieldsOptions);
         return $content;
@@ -208,14 +224,6 @@ class FormBuilder {
         $options['object'] = $this->object;
         $result = array_merge($this->defaultOptions, $options);
         return $result;
-    }
-
-    public function formStartTag() {
-        return $this->template->formTagWithModel($this->object, $this->options);
-    }
-
-    public function end() {
-        return $this->template->end();
     }
 
     protected function addDefaultNameAndIdFor($value, &$options) {
@@ -262,9 +270,5 @@ class FormBuilder {
 
     protected function nameAndIdIndex(&$options) {
         return Arr::pull($options, 'index') ?? '';
-    }
-
-    protected function isNestedAttributesRelation($name) {
-        return method_exists($this->object, 'isNestedAttribute') && $this->object->isNestedAttribute($name);
     }
 }

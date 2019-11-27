@@ -8,7 +8,7 @@ use SilvertipSoftware\Forms\Tests\Author;
 use SilvertipSoftware\Forms\Tests\Post;
 use SilvertipSoftware\Forms\Tests\TestCase;
 
-class FormWithModelTest extends TestCase
+class FormWithTest extends TestCase
 {
 
     public function setUp(): void

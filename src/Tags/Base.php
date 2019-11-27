@@ -75,10 +75,10 @@ class Base {
 
     protected function getAutoIndex($str) {
         $object = $this->object ?? $this->helper->getContextVariable($str);
-        if ($object && method_exists($object, 'toParam')) {
-            return $object->toParam();
+        if ($object && method_exists($object, 'getRouteKey')) {
+            return $object->getRouteKey();
         } else {
-            throw new Exception('object[] naming needs a toParam method on ' . $str);
+            throw new Exception('object[] naming needs a getRouteKey() method on ' . $str);
         }
     }
 

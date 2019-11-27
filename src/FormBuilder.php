@@ -40,7 +40,7 @@ class FormBuilder {
             if (method_exists($object, 'getRouteKey')) {
                 $this->autoIndex = $object->getRouteKey();
             } else {
-                throw new Exception('object[] naming needs a getRouteKey() method on ' . $temp);
+                throw new \Exception('object[] naming needs a getRouteKey() method on ' . $temp);
             }
         }
 
@@ -150,7 +150,7 @@ class FormBuilder {
             $index = $this->autoIndex;
         }
 
-        if ($index) {
+        if ($index !== null) {
             $recordName = $objectName . '[' . $index . '][' . $recordName . ']';
         } elseif (preg_match('/\[\]$/', $recordName)) {
             $recordName = $objectName
@@ -251,7 +251,7 @@ class FormBuilder {
     protected function tagName($multiple = false, $index = null) {
         if (empty($this->objectName)) {
             return $this->helper . ($multiple ? '[]' : '');
-        } elseif ($index) {
+        } elseif ($index != null) {
             return $this->objectName . '[' . $index . ']' . $this->helper . ($multiple ? '[]' : '');
         } else {
             return $this->objectName . '[' . $this->helper . ']' . ($multiple ? '[]' : '');
@@ -261,7 +261,7 @@ class FormBuilder {
     protected function tagId($index) {
         if (empty($this->objectName)) {
             return $this->helper;
-        } elseif ($index) {
+        } elseif ($index != null) {
             return $this->objectName . '_' . $index . '_' . $this->helper;
         } else {
             return $this->objectName . '_' . $this->helper;

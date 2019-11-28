@@ -91,6 +91,13 @@ class TextFieldTest extends TestCase
         $this->assertStringContainsString('value="' . $this->post->aFunc() . '"', $result);
     }
 
+    public function testItSetsValueFromCamelCaseMethod()
+    {
+        $result = \Form::textFieldWithObject('post', 'a_func', $this->options);
+
+        $this->assertStringContainsString('value="' . $this->post->aFunc() . '"', $result);
+    }
+
     public function testCanSupplyValue()
     {
         $options = array_merge($this->options, [

@@ -30,6 +30,10 @@ trait MakesFormBuilders {
                 $ret .= $builder->hiddenField('id');
             }
             $this->end();
+        } else {
+            if (Arr::get($options, 'include_id')) {
+                $ret .= $builder->hiddenField('id');
+            }
         }
         return new HtmlString($ret);
     }

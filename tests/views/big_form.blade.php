@@ -1,5 +1,3 @@
-Hi
-
 @formWith($post, ['url'=>'/test-route'] as $rootForm)
     <div>Test form builder variable: {{ $rootForm->object->title}}</div>
     <div>Test root form scoping: {{ Form::textField('title') }}</div>
@@ -9,12 +7,14 @@ Hi
         <div>Test subform scoping: {{ Form::textField('name') }}</div>
         <div>Test access to other form: {{ $rootForm->checkBox('is_published') }}</div>
     @endFieldsFor
-@endForm
 
-{{ Form::with(null, ['url'=>'/test-other-route']) }}
     @forEach($comments as $comment)
-        @fieldsForWith('comment[]', $comment)
+        @fieldsFor('comments', $comment, ['child_index'=>$loop->index])
             {{ Form::textField('body') }}
         @endFieldsFor
     @endForEach
-{{ Form::end() }}
+
+    @formButton(['class'=>'flavour flav'])
+        Hi there, you!
+    @endFormButton
+@endForm

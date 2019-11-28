@@ -30,27 +30,21 @@ class DirectivesTest extends TestCase
         $this->post->setRelation('author', $this->author);
         $this->viewData = [
             'post' => $this->post,
-            'comments' => [
+            'comments' => collect([
                 new Comment(['id'=>999, 'body' => 'First Comment']),
                 new Comment(['id'=>1000, 'body' => 'Second Comment'])
-            ]
+            ])
         ];
+        $this->viewData['comments'][0]->exists = true;
     }
 
-    public function testMultipart()
-    {
-        $result = $this->renderFormWithOptions(['multipart'=>true]);
-
-        $this->assertStringContainsString('enctype="multipart/form-data"', $result);
-    }
-
-    public function testBigForm()
+    public function testBigFormTopLevel()
     {
         $result = view('big_form', $this->viewData)->render();
 
         $this->assertIsString($result);
         $this->assertSeeTag('form', $result);
-        $this->assertEquals(2, substr_count($result, '<form'));
+        $this->assertEquals(1, substr_count($result, '<form'));
         $this->assertStringContainsString('value="patch"', $result);
         $this->assertStringContainsString('name="post[title]"', $result);
         $this->assertStringContainsString('value="First Post"', $result);
@@ -61,8 +55,37 @@ class DirectivesTest extends TestCase
         $this->assertStringContainsString('name="post[is_published]"', $result);
         $this->assertStringContainsString('value="1"', $result);
         $this->assertStringNotContainsString('checked="checked"', $result);
+    }
+
+    public function testBigFormNested()
+    {
+        $result = view('big_form', $this->viewData)->render();
+
+        $this->assertStringContainsString('name="post[comments_attributes][0][body]"', $result);
+        $this->assertStringContainsString('name="post[comments_attributes][0][id]"', $result);
+        $this->assertStringContainsString('value="999"', $result);
+        $this->assertStringContainsString('name="post[comments_attributes][1][body]"', $result);
+        $this->assertStringNotContainsString('name="post[comments_attributes][1][id]"', $result);
+    }
+
+    public function testViewBasedSubForm()
+    {
+        $result = view('view_based_subform', $this->viewData)->render();
+
+        $this->assertStringContainsString('name="post[comments_attributes][0][body]"', $result);
+        $this->assertStringContainsString('name="post[comments_attributes][0][id]"', $result);
+        $this->assertStringContainsString('value="999"', $result);
+        $this->assertStringContainsString('name="post[comments_attributes][1][body]"', $result);
+        $this->assertStringNotContainsString('name="post[comments_attributes][1][id]"', $result);
+    }
+
+    public function testLoopedCollection()
+    {
+        $result = view('looped_collection', $this->viewData)->render();
 
         $this->assertStringContainsString('name="comment[999][body]"', $result);
+        $this->assertStringNotContainsString('comment[999][id]', $result);
+        $this->assertStringNotContainsString('value="999"', $result);
         $this->assertStringContainsString('name="comment[1000][body]"', $result);
     }
 

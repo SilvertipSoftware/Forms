@@ -17,6 +17,9 @@
     "require-dev": {
         "orchestra/testbench": "^4.0"
     },
+    "scripts": {
+        "test": "vendor/bin/phpunit"
+    },
     "autoload": {
         "psr-4": {
             "SilvertipSoftware\\Forms\\": "src/"

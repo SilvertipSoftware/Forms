@@ -59,6 +59,10 @@ class FormBuilder {
         return $this->template->passwordFieldWithObject($this->objectName, $method, $this->objectify($options));
     }
 
+    public function emailField($method, $options = []) {
+        return $this->template->emailFieldWithObject($this->objectName, $method, $this->objectify($options));
+    }
+
     public function hiddenField($method, $options = []) {
         return $this->template->hiddenFieldWithObject($this->objectName, $method, $this->objectify($options));
     }

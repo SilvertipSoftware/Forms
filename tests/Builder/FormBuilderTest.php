@@ -4,7 +4,6 @@ namespace SilvertipSoftware\Forms\Tests\Builder;
 
 use Illuminate\Support\Collection;
 use Illuminate\Support\HtmlString;
-use SilvertipSoftware\Forms\FormBuilder;
 use SilvertipSoftware\Forms\Tests\Author;
 use SilvertipSoftware\Forms\Tests\Post;
 use SilvertipSoftware\Forms\Tests\TestCase;
@@ -20,6 +19,7 @@ class FormBuilderTest extends TestCase
             'title' => 'First Post',
             'rating' => 6,
             'secret' => 'foo',
+            'email' => 'jon@doe.com',
             'is_published' => 1
         ]);
         $this->allAuthors = new Collection([
@@ -64,6 +64,16 @@ class FormBuilderTest extends TestCase
         $this->assertStringContainsString('name="post[secret]"', $result);
         $this->assertStringContainsString('type="password"', $result);
         $this->assertStringContainsString('value="' . $this->post->secret . '"', $result);
+    }
+
+    public function testItBuildsEmailFieldsCorrectly()
+    {
+        $result = $this->builder->emailField('email');
+        $this->assertInstanceOf(HtmlString::class, $result);
+        $this->assertSeeTag('input', $result);
+        $this->assertStringContainsString('name="post[email]"', $result);
+        $this->assertStringContainsString('type="email"', $result);
+        $this->assertStringContainsString('value="' . $this->post->email . '"', $result);
     }
 
     public function testItBuildsHiddenFieldsCorrectly()

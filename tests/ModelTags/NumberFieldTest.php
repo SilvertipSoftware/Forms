@@ -2,7 +2,6 @@
 
 namespace SilvertipSoftware\Forms\Tests\ModelTags;
 
-use Illuminate\Support\HtmlString;
 use SilvertipSoftware\Forms\Tests\Post;
 use SilvertipSoftware\Forms\Tests\TestCase;
 

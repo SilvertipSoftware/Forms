@@ -5,21 +5,21 @@ namespace SilvertipSoftware\Forms\Tests\ModelTags;
 use SilvertipSoftware\Forms\Tests\Post;
 use SilvertipSoftware\Forms\Tests\TestCase;
 
-class PasswordFieldTest extends TestCase
+class EmailFieldTest extends TestCase
 {
 
     public function setUp(): void
     {
         parent::setUp();
         $this->post = new Post([
-            'secret' => 'top_secret'
+            'email' => 'jon@doe.com'
         ]);
     }
 
-    public function testItMakesAPasswordInputTag()
+    public function testItMakesAEmailInputTag()
     {
-        $result = \Form::passwordFieldWithObject('post', 'secret');
+        $result = \Form::emailFieldWithObject('post', 'email');
 
-        $this->assertStringContainsString('type="password"', $result);
+        $this->assertStringContainsString('type="email"', $result);
     }
 }

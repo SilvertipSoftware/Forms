@@ -60,6 +60,11 @@ trait FormTagHelper {
         ], $options));
     }
 
+    public function textAreaTag($name, $content = null, $options = []) {
+        $options['name'] = $name;
+        return $this->contentTag('textarea', $content ?? '', $options);
+    }
+
     public function hiddenFieldTag($name, $value = null, $options = []) {
         return $this->tag('input', array_merge([
             'type' => 'hidden',

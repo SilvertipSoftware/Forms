@@ -4,7 +4,6 @@ namespace SilvertipSoftware\Forms\Tags;
 
 use Illuminate\Support\Arr;
 use Illuminate\Support\HtmlString;
-use Illuminate\Support\Str;
 
 class CheckBox extends Base {
     use Checkable;
@@ -39,7 +38,6 @@ class CheckBox extends Base {
         } else {
             $tags = '' . $checkbox;
         }
-
 
         return new HtmlString($tags);
     }

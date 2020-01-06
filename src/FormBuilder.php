@@ -77,8 +77,8 @@ class FormBuilder {
         );
     }
 
-    public function textArea($method, $options = []) {
-        return $this->template->textAreaWithObject($this->objectName, $method, $this->objectify($options));
+    public function textArea($method, $text = null, $options = []) {
+        return $this->template->textAreaWithObject($this->objectName, $method, $text, $this->objectify($options));
     }
 
     public function submit($value = null, $options = []) {

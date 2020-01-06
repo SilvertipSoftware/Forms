@@ -20,7 +20,8 @@ class FormBuilderTest extends TestCase
             'rating' => 6,
             'secret' => 'foo',
             'email' => 'jon@doe.com',
-            'is_published' => 1
+            'is_published' => 1,
+            'content' => 'Some Content'
         ]);
         $this->allAuthors = new Collection([
             new Author(['id' => 1, 'name' => 'Dante']),
@@ -74,6 +75,16 @@ class FormBuilderTest extends TestCase
         $this->assertStringContainsString('name="post[email]"', $result);
         $this->assertStringContainsString('type="email"', $result);
         $this->assertStringContainsString('value="' . $this->post->email . '"', $result);
+    }
+
+    public function testItBuildsTextAreasCorrectly()
+    {
+        $result = $this->builder->textArea('content', 'Some Content');
+
+        $this->assertInstanceOf(HtmlString::class, $result);
+        $this->assertSeeTag('textarea', $result);
+        $this->assertStringContainsString('name="post[content]"', $result);
+        $this->assertStringContainsString($this->post->content . '</textarea>', $result);
     }
 
     public function testItBuildsHiddenFieldsCorrectly()

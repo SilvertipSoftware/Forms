@@ -2,11 +2,7 @@
 
 namespace SilvertipSoftware\Forms\Tags;
 
-use SilvertipSoftware\Forms\TagHelper;
-use SilvertipSoftware\Forms\Concerns\TranslatesModels;
 use Illuminate\Support\Arr;
-use Illuminate\Support\HtmlString;
-use Illuminate\Support\Str;
 
 class CollectionSelect extends Base {
 

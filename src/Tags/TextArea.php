@@ -2,9 +2,7 @@
 
 namespace SilvertipSoftware\Forms\Tags;
 
-use Illuminate\Support\Arr;
-
-class Label extends Base {
+class TextArea extends Base {
 
     protected $text;
 
@@ -23,10 +21,8 @@ class Label extends Base {
     public function render() {
         $options = $this->options;
         $this->addDefaultNameAndId($options);
-        $options['for'] = Arr::pull($options, 'id');
-        Arr::pull($options, 'name');
 
-        $text = $this->text ?? $this->translate();
-        return $this->helper->contentTag('label', $text, $options);
+        $text = $this->text ?? $this->valueBeforeTypeCast();
+        return $this->helper->contentTag('textarea', $text, $options);
     }
 }

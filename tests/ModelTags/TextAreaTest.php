@@ -5,21 +5,21 @@ namespace SilvertipSoftware\Forms\Tests\ModelTags;
 use SilvertipSoftware\Forms\Tests\Post;
 use SilvertipSoftware\Forms\Tests\TestCase;
 
-class PasswordFieldTest extends TestCase
+class TextAreaTest extends TestCase
 {
 
     public function setUp(): void
     {
         parent::setUp();
         $this->post = new Post([
-            'secret' => 'top_secret'
+            'content' => 'Content'
         ]);
     }
 
-    public function testItMakesAPasswordInputTag()
+    public function testItMakesATextAreaTag()
     {
-        $result = \Form::passwordFieldWithObject('post', 'secret');
+        $result = \Form::textAreaWithObject('post', 'content');
 
-        $this->assertStringContainsString('type="password"', $result);
+        $this->assertStringContainsString('</textarea>', $result);
     }
 }

@@ -3,7 +3,6 @@
 namespace SilvertipSoftware\Forms\Tags;
 
 use Illuminate\Support\Arr;
-use Illuminate\Support\Str;
 
 class NumberField extends TextField {
 

@@ -25,6 +25,18 @@ trait MakesModelTags
         return $tag->render();
     }
 
+    public function emailFieldWithObject($object, $method, $options = [])
+    {
+        $tag = new Tags\EmailField($object, $method, $this, $options);
+        return $tag->render();
+    }
+
+    public function textAreaWithObject($object, $method, $text = null, $options = [])
+    {
+        $tag = new Tags\TextArea($object, $method, $this, $text, $options);
+        return $tag->render();
+    }
+
     public function hiddenFieldWithObject($object, $method, $options = [])
     {
         $tag = new Tags\HiddenField($object, $method, $this, $options);

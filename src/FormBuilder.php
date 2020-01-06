@@ -59,6 +59,10 @@ class FormBuilder {
         return $this->template->passwordFieldWithObject($this->objectName, $method, $this->objectify($options));
     }
 
+    public function emailField($method, $options = []) {
+        return $this->template->emailFieldWithObject($this->objectName, $method, $this->objectify($options));
+    }
+
     public function hiddenField($method, $options = []) {
         return $this->template->hiddenFieldWithObject($this->objectName, $method, $this->objectify($options));
     }
@@ -73,8 +77,12 @@ class FormBuilder {
         );
     }
 
-    public function textArea($method, $options = []) {
-        return $this->template->textAreaWithObject($this->objectName, $method, $this->objectify($options));
+    public function textArea($method, $text = null, $options = []) {
+        if (is_array($text)) {
+            $options = $text;
+            $text = null;
+        }
+        return $this->template->textAreaWithObject($this->objectName, $method, $text, $this->objectify($options));
     }
 
     public function submit($value = null, $options = []) {
@@ -95,6 +103,10 @@ class FormBuilder {
     }
 
     public function label($method, $text = null, $options = []) {
+        if (is_array($text)) {
+            $options = $text;
+            $text = null;
+        }
         return $this->template->labelWithObject($this->objectName, $method, $text, $this->objectify($options));
     }
 

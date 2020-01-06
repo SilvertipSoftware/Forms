@@ -78,6 +78,10 @@ class FormBuilder {
     }
 
     public function textArea($method, $text = null, $options = []) {
+        if (is_array($text)) {
+            $options = $text;
+            $text = null;
+        }
         return $this->template->textAreaWithObject($this->objectName, $method, $text, $this->objectify($options));
     }
 
@@ -99,6 +103,10 @@ class FormBuilder {
     }
 
     public function label($method, $text = null, $options = []) {
+        if (is_array($text)) {
+            $options = $text;
+            $text = null;
+        }
         return $this->template->labelWithObject($this->objectName, $method, $text, $this->objectify($options));
     }
 

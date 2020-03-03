@@ -17,7 +17,7 @@ class CheckBox extends Base {
     public function render() {
         $options = $this->options;
         $options['type'] = 'checkbox';
-        $options['value'] = $this->checkedValue;
+        $options['value'] = $this->getSessionValue() ?? $this->checkedValue;
         if ($this->isInputChecked($options)) {
             $options['checked'] = 'checked';
         }

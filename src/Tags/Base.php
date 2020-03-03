@@ -264,4 +264,15 @@ class Base {
             [ 'type' => 'hidden', 'value' => '']
         ));
     }
+
+    protected function getSessionValue() {
+        $old_input = request()->old($this->objectName);
+        if (empty($old_input[$this->attr])) {
+            return null;
+        }
+
+        $clone = clone $this->object;
+        $clone->{$this->attr} = $old_input[$this->attr];
+        return $this->result($clone, $this->attr);
+    }
 }

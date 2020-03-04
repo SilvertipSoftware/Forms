@@ -1,0 +1,14 @@
+name: forms
+recipe: lemp
+config:
+  webroot: .
+
+services:
+  appserver:
+    xdebug: true
+
+tooling:
+  phpunit:
+    service: appserver
+    description: "Run PHP Unit tests: lando phpunit \nCan run --filter testFunctionName ClassNameTest /path/to/class"
+    cmd: /app/vendor/bin/phpunit

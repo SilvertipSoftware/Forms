@@ -2,7 +2,6 @@
 
 namespace SilvertipSoftware\Forms\Tests\Directives;
 
-use Illuminate\Support\HtmlString;
 use SilvertipSoftware\Forms\Tests\Author;
 use SilvertipSoftware\Forms\Tests\Comment;
 use SilvertipSoftware\Forms\Tests\Post;

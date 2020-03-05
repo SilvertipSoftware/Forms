@@ -3,7 +3,6 @@
 namespace SilvertipSoftware\Forms\Tests\Builder;
 
 use Illuminate\Support\HtmlString;
-use SilvertipSoftware\Forms\FormBuilder;
 use SilvertipSoftware\Forms\Tests\Author;
 use SilvertipSoftware\Forms\Tests\Post;
 use SilvertipSoftware\Forms\Tests\TestCase;

@@ -30,7 +30,7 @@ class CollectionSelect extends Base {
 
     public function render() {
         $optionsForOptions = [
-            'selected' => Arr::get($this->options, 'selected', $this->value()),
+            'selected' => $this->getOldInput() ?? Arr::get($this->options, 'selected', $this->value()),
             'disabled' => Arr::get($this->options, 'disabled', false)
         ];
 

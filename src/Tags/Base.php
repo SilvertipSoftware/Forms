@@ -103,7 +103,7 @@ class Base {
 
     protected function addDefaultNameAndId(&$options) {
         $index = $this->nameAndIdIndex($options);
-        $options['name'] = Arr::get($options, 'name', $this->tagName(Arr::get($options, 'multiple'), $index));
+        $options['name'] = $this->getNameFromOptions($index, $options);
 
         if (!$this->skipDefaultIds) {
             $options['id'] = Arr::get($options, 'id', $this->tagId($index));
@@ -265,14 +265,23 @@ class Base {
         ));
     }
 
-    protected function getSessionValue() {
-        $old_input = request()->old($this->objectName);
-        if (empty($old_input[$this->attr])) {
+    protected function getOldInput() {
+        $index = $this->objectName;
+        if (isset($this->options['index'])) {
+            $name = $this->getNameFromOptions($this->options['index'], $this->options);
+            $temp = preg_replace('/\]\[|[^-a-zA-Z0-9_\-:.]/', '.', $name);
+            $index = preg_replace('/\.$/', '', $temp);
+        }
+
+        $old_input = request()->old($index);
+        if (empty($old_input)) {
             return null;
         }
 
-        $clone = clone $this->object;
-        $clone->{$this->attr} = $old_input[$this->attr];
-        return $this->result($clone, $this->attr);
+        return is_array($old_input) ? $old_input[$this->attr] : $old_input;
+    }
+
+    private function getNameFromOptions($index, $options) {
+        return Arr::get($options, 'name', $this->tagName(Arr::get($options, 'multiple'), $index));
     }
 }

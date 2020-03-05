@@ -13,7 +13,7 @@ class TextField extends Base {
         }
         $options['type'] = Arr::get($options, 'type', $this->fieldType());
         if ($options['type'] != 'file') {
-            $options['value'] = $this->getSessionValue() ?? Arr::get($options, 'value', $this->valueBeforeTypeCast());
+            $options['value'] = $this->getOldInput() ?? Arr::get($options, 'value', $this->valueBeforeTypeCast());
         }
         $this->addDefaultNameAndId($options);
 

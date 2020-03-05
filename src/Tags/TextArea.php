@@ -22,7 +22,7 @@ class TextArea extends Base {
         $options = $this->options;
         $this->addDefaultNameAndId($options);
 
-        $text = $this->getSessionValue() ?? $this->text ?? $this->valueBeforeTypeCast();
+        $text = $this->getOldInput() ?? $this->text ?? $this->valueBeforeTypeCast();
         return $this->helper->contentTag('textarea', $text, $options);
     }
 }

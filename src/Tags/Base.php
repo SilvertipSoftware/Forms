@@ -274,7 +274,7 @@ class Base {
             $index_dotted = preg_replace('/\.$/', '', $temp);
         }
 
-        $old_input = request()->old($index) ?? request()->old($index_dotted);
+        $old_input = request()->old($index) ?? request()->old($index . "[$this->attr]") ?? request()->old($index_dotted) ?? request()->old($index_dotted . ".$this->attr");
         if (empty($old_input)) {
             return null;
         }

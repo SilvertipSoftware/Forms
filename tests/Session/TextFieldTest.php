@@ -2,6 +2,7 @@
 
 namespace SilvertipSoftware\Forms\Tests\Session;
 
+use SilvertipSoftware\Forms\Tests\Address;
 use SilvertipSoftware\Forms\Tests\Post;
 use SilvertipSoftware\Forms\Tests\TestCase;
 
@@ -15,7 +16,14 @@ class TextFieldTest extends TestCase
         $this->post = new Post([
             'title' => 'First Post',
             'body' => 'The Body',
-            'author_id' => 2
+            'author_id' => 2,
+            'address' => new Address([
+                'city' => 'Vancouver',
+                'country' => 'CA',
+                'company' => 'Acme Inc.',
+                'address1' => '123 Main st',
+                'phone' => '555-5555',
+            ])
         ]);
     }
 
@@ -40,9 +48,12 @@ class TextFieldTest extends TestCase
 
     public function testTextFieldWithOldInputNestedName()
     {
-        $oldValue = 'test-old-value';
-        app('router')->get('textfield', ['middleware' => 'web', 'uses' => function () use ($oldValue) {
-            $request = request()->merge(['post[some][nested][path]' => ['title' => $oldValue]]);
+        app('router')->get('textfield', ['middleware' => 'web', 'uses' => function () {
+            $request = request()->merge([
+                'post[address][company]' => 'New Company',
+                'post[address][country]' => 'US',
+                'post[address][phone]' => '867-5309',
+            ]);
             $request->flash();
 
             $options = [
@@ -54,7 +65,8 @@ class TextFieldTest extends TestCase
 
         $response = $this->call('GET', 'textfield');
         $this->assertEquals(200, $response->status());
-        $this->assertStringContainsString("value=\"$oldValue\"", $response->getContent());
-        $this->assertStringContainsString("post[some][nested][path]", $response->getContent());
+        $this->assertStringContainsString("value=\"US\" name=\"post[address][country]\"", $response->getContent());
+        $this->assertStringContainsString("value=\"New Company\" name=\"post[address][company]\"", $response->getContent());
+        $this->assertStringContainsString("value=\"867-5309\" name=\"post[address][phone]\"", $response->getContent());
     }
 }

@@ -1,3 +1,9 @@
-{{ \Form::with(null, ['url'=>'/test-other-route']) }}
-  {{ \Form::textFieldWithObject('post[some][nested][path]', 'title', $options) }}
+{{ \Form::with($options['object'], ['url'=>'#']) }}
+  {{ \Form::fieldsFor('address', $options['object']['address']) }}
+    {{ \Form::textField('city') }}
+    {{ \Form::textField('country') }}
+    {{ \Form::textField('company') }}
+    {{ \Form::textField('address1') }}
+    {{ \Form::textField('phone') }}
+  {{ \Form::end() }}
 {{ \Form::end() }}

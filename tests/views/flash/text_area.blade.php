@@ -1,3 +1,3 @@
-{{ \Form::with(null, ['url'=>'/test-other-route']) }}
-  {{ \Form::textAreaWithObject('post', 'body', $options) }}
+{{ \Form::with($options['object'], ['url'=>'/test-other-route']) }}
+  {{ \Form::textArea('body', $options) }}
 {{ \Form::end() }}

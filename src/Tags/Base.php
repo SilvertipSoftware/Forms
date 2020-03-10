@@ -267,19 +267,20 @@ class Base {
 
     protected function getOldInput() {
         $index = $this->objectName;
-        $index_dotted = '';
         if (isset($this->options['index'])) {
             $index = $this->getNameFromOptions($this->options['index'], $this->options);
-            $temp = preg_replace('/\]\[|[^-a-zA-Z0-9_\-:.]/', '.', $index);
-            $index_dotted = preg_replace('/\.$/', '', $temp);
         }
 
-        $old_input = request()->old($index) ?? request()->old($index . "[$this->attr]") ?? request()->old($index_dotted) ?? request()->old($index_dotted . ".$this->attr");
+        $old_input = request()->old($index) ?? request()->old($index . "[$this->attr]");
         if (empty($old_input)) {
             return null;
         }
 
-        return is_array($old_input) ? $old_input[$this->attr] : $old_input;
+        if (is_array($old_input) && !empty($old_input[$this->attr])) {
+            return $old_input[$this->attr];
+        }
+
+        return $old_input;
     }
 
     private function getNameFromOptions($index, $options) {

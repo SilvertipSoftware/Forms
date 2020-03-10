@@ -43,7 +43,7 @@ class CheckBoxTest extends TestCase
     {
         $oldValue = false;
         app('router')->get('checkbox', ['middleware' => 'web', 'uses' => function () use ($oldValue) {
-            $request = request()->merge(['post[some][nested][path]' => ['is_published' => $oldValue]]);
+            $request = request()->merge(['post.some.nested.path' => ['is_published' => $oldValue]]);
             $request->flash();
 
             $options = [

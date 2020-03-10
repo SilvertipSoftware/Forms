@@ -50,9 +50,9 @@ class TextFieldTest extends TestCase
     {
         app('router')->get('textfield', ['middleware' => 'web', 'uses' => function () {
             $request = request()->merge([
-                'post[address][company]' => 'New Company',
-                'post[address][country]' => 'US',
-                'post[address][phone]' => '867-5309',
+                'post.address.company' => 'New Company',
+                'post.address.country' => 'US',
+                'post.address.phone' => '867-5309',
             ]);
             $request->flash();
 

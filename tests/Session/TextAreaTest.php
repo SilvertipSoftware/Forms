@@ -48,7 +48,7 @@ class TextAreaTest extends TestCase
     {
         $oldValue = 'test-old-value';
         app('router')->get('textarea', ['middleware' => 'web', 'uses' => function () use ($oldValue) {
-            $request = request()->merge(["post[comments][1][body]" => $oldValue]);
+            $request = request()->merge(["post.comments.1.body" => $oldValue]);
             $request->flash();
 
             $options = [

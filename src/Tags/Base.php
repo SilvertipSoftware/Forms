@@ -270,8 +270,10 @@ class Base {
         if (isset($this->options['index'])) {
             $index = $this->getNameFromOptions($this->options['index'], $this->options);
         }
+        $temp = preg_replace('/\]\[|[^-a-zA-Z0-9_\-:.]/', '.', $index);
+        $index = preg_replace('/\.$/', '', $temp);
 
-        $old_input = request()->old($index) ?? request()->old($index . "[$this->attr]");
+        $old_input = request()->old($index) ?? request()->old($index . ".$this->attr");
         if (empty($old_input)) {
             return null;
         }

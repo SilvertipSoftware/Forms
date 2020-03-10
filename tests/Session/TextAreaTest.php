@@ -3,6 +3,7 @@
 namespace SilvertipSoftware\Forms\Tests\Session;
 
 use SilvertipSoftware\Forms\Tests\Post;
+use SilvertipSoftware\Forms\Tests\Comment;
 use SilvertipSoftware\Forms\Tests\TestCase;
 
 class TextAreaTest extends TestCase
@@ -15,6 +16,11 @@ class TextAreaTest extends TestCase
         $this->post = new Post([
             'title' => 'First Post',
             'body' => 'The Body',
+            'comments' => [
+                new Comment(['id' => 998, 'body' => 'First Comment']),
+                new Comment(['id' => 999, 'body' => 'Second Comment']),
+                new Comment(['id' => 1000, 'body' => 'Third Comment']),
+            ],
             'author_id' => 2
         ]);
     }
@@ -38,11 +44,11 @@ class TextAreaTest extends TestCase
         $this->assertStringContainsString("$oldValue</textarea>", $response->getContent());
     }
 
-    public function testTextAreaWithOldInputNestedName()
+    public function testTextAreaWithOldInputNestedObject()
     {
         $oldValue = 'test-old-value';
         app('router')->get('textarea', ['middleware' => 'web', 'uses' => function () use ($oldValue) {
-            $request = request()->merge(['post[some][nested][path]' => ['body' => $oldValue]]);
+            $request = request()->merge(["post[comments][1][body]" => $oldValue]);
             $request->flash();
 
             $options = [
@@ -55,6 +61,8 @@ class TextAreaTest extends TestCase
         $response = $this->call('GET', 'textarea');
         $this->assertEquals(200, $response->status());
         $this->assertStringContainsString("$oldValue</textarea>", $response->getContent());
-        $this->assertStringContainsString("post[some][nested][path]", $response->getContent());
+        $this->assertStringContainsString("post[comments][0][body]", $response->getContent());
+        $this->assertStringContainsString("post[comments][1][body]", $response->getContent());
+        $this->assertStringContainsString("post[comments][2][body]", $response->getContent());
     }
 }

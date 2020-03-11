@@ -4,7 +4,6 @@ namespace SilvertipSoftware\Forms\Tests\Builder;
 
 use Illuminate\Support\Collection;
 use Illuminate\Support\HtmlString;
-use SilvertipSoftware\Forms\FormBuilder;
 use SilvertipSoftware\Forms\Tests\Author;
 use SilvertipSoftware\Forms\Tests\Comment;
 use SilvertipSoftware\Forms\Tests\Post;

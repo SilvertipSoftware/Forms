@@ -11,11 +11,13 @@ class TextField extends Base {
         if (!array_key_exists('size', $options)) {
             $options['size'] = Arr::get($options, 'maxlength');
         }
+        $this->addDefaultNameAndId($options);
+        $this->addValueFromFlash($options);
+        
         $options['type'] = Arr::get($options, 'type', $this->fieldType());
         if ($options['type'] != 'file') {
             $options['value'] = Arr::get($options, 'value', $this->valueBeforeTypeCast());
         }
-        $this->addDefaultNameAndId($options);
 
         return $this->helper->tag('input', $options);
     }

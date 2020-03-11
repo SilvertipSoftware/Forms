@@ -18,6 +18,8 @@ class CheckBox extends Base {
         $options = $this->options;
         $options['type'] = 'checkbox';
         $options['value'] = $this->checkedValue;
+
+        $this->addValueFromFlash($options);
         if ($this->isInputChecked($options)) {
             $options['checked'] = 'checked';
         }
@@ -64,6 +66,14 @@ class CheckBox extends Base {
             ));
         } else {
             return '';
+        }
+    }
+
+    protected function addValueFromFlash(&$options) {
+        $oldInput = $this->valueFromFlash($options);
+
+        if ($oldInput !== null) {
+            $options['checked'] = $this->isChecked($oldInput);
         }
     }
 }

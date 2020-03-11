@@ -29,6 +29,8 @@ class CollectionSelect extends Base {
     }
 
     public function render() {
+        $this->addValueFromFlash($this->options);
+
         $optionsForOptions = [
             'selected' => Arr::get($this->options, 'selected', $this->value()),
             'disabled' => Arr::get($this->options, 'disabled', false)
@@ -44,5 +46,13 @@ class CollectionSelect extends Base {
             $this->options,
             $this->htmlOptions
         );
+    }
+
+    protected function addValueFromFlash(&$options) {
+        $oldInput = $this->valueFromFlash($options);
+
+        if (!empty($oldInput)) {
+            $this->options['selected'] = $oldInput;
+        }
     }
 }

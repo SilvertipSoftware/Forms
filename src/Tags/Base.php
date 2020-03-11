@@ -103,7 +103,7 @@ class Base {
 
     protected function addDefaultNameAndId(&$options) {
         $index = $this->nameAndIdIndex($options);
-        $options['name'] = Arr::get($options, 'name', $this->tagName(Arr::get($options, 'multiple'), $index));
+        $options['name'] = $this->getNameFromOptions($index, $options);
 
         if (!$this->skipDefaultIds) {
             $options['id'] = Arr::get($options, 'id', $this->tagId($index));
@@ -113,6 +113,10 @@ class Base {
                 $options['id'] = $options['id'] ? $namespace . '_' . $options['id'] : $namespace;
             }
         }
+    }
+
+    private function getNameFromOptions($index, $options) {
+        return Arr::get($options, 'name', $this->tagName(Arr::get($options, 'multiple'), $index));
     }
 
     protected function tagName($multiple = false, $index = null) {
@@ -263,5 +267,30 @@ class Base {
             Arr::only($options, ['name', 'disabled', 'form']),
             [ 'type' => 'hidden', 'value' => '']
         ));
+    }
+
+    protected function flashKey($options) {
+        $name = Arr::get($options, 'name');
+
+        if (empty($name)) {
+            $index = $this->nameAndIdIndex($options);
+            $name = $this->getNameFromOptions($index, $options);
+        }
+
+        $temp = preg_replace('/\]\[|[^-a-zA-Z0-9_\-:.]/', '.', $name);
+        return preg_replace('/\.$/', '', $temp);
+    }
+
+    protected function valueFromFlash($options) {
+        $key = $this->flashKey($options);
+        return request()->old($key);
+    }
+
+    protected function addValueFromFlash(&$options) {
+        $oldInput = $this->valueFromFlash($options);
+
+        if ($oldInput !== null) {
+            $options['value'] = $oldInput;
+        }
     }
 }

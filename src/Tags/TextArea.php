@@ -21,8 +21,16 @@ class TextArea extends Base {
     public function render() {
         $options = $this->options;
         $this->addDefaultNameAndId($options);
-
+        $this->addValueFromFlash($options);
         $text = $this->text ?? $this->valueBeforeTypeCast();
         return $this->helper->contentTag('textarea', $text, $options);
+    }
+
+    protected function addValueFromFlash(&$options) {
+        $oldInput = $this->valueFromFlash($options);
+
+        if ($oldInput !== null) {
+            $this->text = $oldInput;
+        }
     }
 }

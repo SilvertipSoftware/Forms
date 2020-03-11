@@ -55,6 +55,11 @@ trait MakesModelTags
         return $tag->render();
     }
 
+    public function telFieldWithObject($object, $method, $options = []) {
+        $tag = new Tags\TelField($object, $method, $this, $options);
+        return $tag->render();
+    }
+
     public function collectionSelectWithObject(
         $object,
         $method,

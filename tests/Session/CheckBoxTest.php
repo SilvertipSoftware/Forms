@@ -23,7 +23,11 @@ class CheckBoxTest extends TestCase
     {
         $oldValue = false;
         app('router')->get('checkbox', ['middleware' => 'web', 'uses' => function () use ($oldValue) {
-            $request = request()->merge(['post' => ['is_published' => $oldValue]]);
+            $request = request()->merge([
+                'post' => [
+                    'is_published' => $oldValue
+                ]
+            ]);
             $request->flash();
 
             $options = [
@@ -35,7 +39,7 @@ class CheckBoxTest extends TestCase
 
         $response = $this->call('GET', 'checkbox');
         $this->assertEquals(200, $response->status());
-        $this->assertStringContainsString("value=\"$oldValue\" checked=\"checked\" name=\"post[is_published]\"", $response->getContent());
+        $this->assertStringNotContainsString("checked=\"checked\"", $response->getContent());
     }
 
 
@@ -43,7 +47,17 @@ class CheckBoxTest extends TestCase
     {
         $oldValue = false;
         app('router')->get('checkbox', ['middleware' => 'web', 'uses' => function () use ($oldValue) {
-            $request = request()->merge(['post.some.nested.path' => ['is_published' => $oldValue]]);
+            $request = request()->merge([
+                'post' => [
+                    'some' => [
+                        'nested' => [
+                            'path' => [
+                                'is_published' => $oldValue
+                            ]
+                        ]
+                    ]
+                ]
+            ]);
             $request->flash();
 
             $options = [
@@ -55,7 +69,7 @@ class CheckBoxTest extends TestCase
 
         $response = $this->call('GET', 'checkbox');
         $this->assertEquals(200, $response->status());
-        $this->assertStringContainsString("value=\"$oldValue\" checked=\"checked\" name=\"post[some][nested][path][is_published]\"", $response->getContent());
+        $this->assertStringNotContainsString("checked=\"checked\"", $response->getContent());
         $this->assertStringContainsString("post[some][nested][path]", $response->getContent());
     }
 }

@@ -94,8 +94,8 @@ class FormBuilder {
         return $this->template->submitTag($value, $options);
     }
 
-    public function phoneField($method, $options = []) {
-        return $this->template->phoneFieldWithObject($this->objectName, $method, $this->objectify($options));
+    public function telField($method, $options = []) {
+        return $this->template->telFieldWithObject($this->objectName, $method, $this->objectify($options));
     }
 
     public function dateField($method, $options = []) {

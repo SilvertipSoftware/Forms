@@ -31,7 +31,11 @@ class TextFieldTest extends TestCase
     {
         $oldValue = 'test-old-value';
         app('router')->get('textfield', ['middleware' => 'web', 'uses' => function () use ($oldValue) {
-            $request = request()->merge(['post' => ['title' => $oldValue]]);
+            $request = request()->merge([
+                'post' => [
+                    'title' => $oldValue
+                ]
+            ]);
             $request->flash();
 
             $options = [
@@ -50,9 +54,13 @@ class TextFieldTest extends TestCase
     {
         app('router')->get('textfield', ['middleware' => 'web', 'uses' => function () {
             $request = request()->merge([
-                'post.address.company' => 'New Company',
-                'post.address.country' => 'US',
-                'post.address.phone' => '867-5309',
+                'post' => [
+                    'address' => [
+                        'company' => 'New Company',
+                        'country' => 'US',
+                        'phone' => '867-5309'
+                    ]
+                ]
             ]);
             $request->flash();
 
@@ -65,8 +73,8 @@ class TextFieldTest extends TestCase
 
         $response = $this->call('GET', 'textfield');
         $this->assertEquals(200, $response->status());
-        $this->assertStringContainsString("value=\"US\" name=\"post[address][country]\"", $response->getContent());
-        $this->assertStringContainsString("value=\"New Company\" name=\"post[address][company]\"", $response->getContent());
-        $this->assertStringContainsString("value=\"867-5309\" name=\"post[address][phone]\"", $response->getContent());
+        $this->assertStringContainsString("value=\"US\"", $response->getContent());
+        $this->assertStringContainsString("value=\"New Company\"", $response->getContent());
+        $this->assertStringContainsString("value=\"867-5309\"", $response->getContent());
     }
 }

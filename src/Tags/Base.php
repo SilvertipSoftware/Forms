@@ -115,6 +115,10 @@ class Base {
         }
     }
 
+    private function getNameFromOptions($index, $options) {
+        return Arr::get($options, 'name', $this->tagName(Arr::get($options, 'multiple'), $index));
+    }
+
     protected function tagName($multiple = false, $index = null) {
         if (empty($this->objectName)) {
             return $this->sanitizedMethodName() . ($multiple ? '[]' : '');
@@ -265,27 +269,28 @@ class Base {
         ));
     }
 
-    protected function getOldInput() {
-        $index = $this->objectName;
-        if (isset($this->options['index'])) {
-            $index = $this->getNameFromOptions($this->options['index'], $this->options);
-        }
-        $temp = preg_replace('/\]\[|[^-a-zA-Z0-9_\-:.]/', '.', $index);
-        $index = preg_replace('/\.$/', '', $temp);
+    protected function flashKey($options) {
+        $name = Arr::get($options, 'name');
 
-        $old_input = request()->old($index) ?? request()->old($index . ".$this->attr");
-        if (empty($old_input)) {
-            return null;
+        if (empty($name)) {
+            $index = $this->nameAndIdIndex($options);
+            $name = $this->getNameFromOptions($index, $options);
         }
 
-        if (is_array($old_input) && !empty($old_input[$this->attr])) {
-            return $old_input[$this->attr];
-        }
-
-        return $old_input;
+        $temp = preg_replace('/\]\[|[^-a-zA-Z0-9_\-:.]/', '.', $name);
+        return preg_replace('/\.$/', '', $temp);
     }
 
-    private function getNameFromOptions($index, $options) {
-        return Arr::get($options, 'name', $this->tagName(Arr::get($options, 'multiple'), $index));
+    protected function valueFromFlash($options) {
+        $key = $this->flashKey($options);
+        return request()->old($key);
+    }
+
+    protected function addValueFromFlash(&$options) {
+        $oldInput = $this->valueFromFlash($options);
+
+        if ($oldInput !== null) {
+            $options['value'] = $oldInput;
+        }
     }
 }

@@ -31,7 +31,11 @@ class CollectionTest extends TestCase
     {
         $oldAuthorId = '1';
         app('router')->get('collection', ['middleware' => 'web', 'uses' => function () use ($oldAuthorId) {
-            $request = request()->merge(['post' => ['author_id' => $oldAuthorId]]);
+            $request = request()->merge([
+                'post' => [
+                    'author_id' => $oldAuthorId
+                ]
+            ]);
             $request->flash();
 
             $options = [
@@ -51,7 +55,17 @@ class CollectionTest extends TestCase
     {
         $oldAuthorId = '1';
         app('router')->get('collection', ['middleware' => 'web', 'uses' => function () use ($oldAuthorId) {
-            $request = request()->merge(['post.some.nested.path' => ['author_id' => $oldAuthorId]]);
+            $request = request()->merge([
+                'post' => [
+                    'some' => [
+                        'nested' => [
+                            'path' => [
+                                'author_id' => $oldAuthorId
+                            ]
+                        ]
+                    ]
+                ]
+            ]);
             $request->flash();
 
             $options = [

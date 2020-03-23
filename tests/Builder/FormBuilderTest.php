@@ -6,6 +6,7 @@ use Illuminate\Support\Collection;
 use Illuminate\Support\HtmlString;
 use SilvertipSoftware\Forms\Tests\Author;
 use SilvertipSoftware\Forms\Tests\Post;
+use SilvertipSoftware\Forms\Tests\Comment;
 use SilvertipSoftware\Forms\Tests\TestCase;
 
 class FormBuilderTest extends TestCase
@@ -64,7 +65,7 @@ class FormBuilderTest extends TestCase
         $this->assertSeeTag('input', $result);
         $this->assertStringContainsString('name="post[secret]"', $result);
         $this->assertStringContainsString('type="password"', $result);
-        $this->assertStringContainsString('value="' . $this->post->secret . '"', $result);
+        $this->assertStringContainsString('value=""', $result);
     }
 
     public function testItBuildsEmailFieldsCorrectly()
@@ -130,6 +131,20 @@ class FormBuilderTest extends TestCase
         $this->assertSeeTag('label', $result);
         $this->assertStringContainsString('for="post_is_published"', $result);
         $this->assertStringContainsString('>In Print</label>', $result);
+    }
+
+    public function testItBuildsLabelsWithTranslationsCorrectlyInNestedForms()
+    {
+        app('translator')->addLines([
+            'posts.is_published' => 'In Print',
+            'posts.author.name' => 'Authored By'
+        ], 'en');
+        $this->builder->fieldsFor('author', [new Author()]);
+        $nestedBuilder = \Form::currentBuilder();
+        $result = $nestedBuilder->label('name');
+
+        $this->assertStringContainsString('for="post_author_name"', $result);
+        $this->assertStringContainsString('>Authored By</label>', $result);
     }
 
     public function testItBuildsCollectionSelectsCorrectly()

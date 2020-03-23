@@ -8,11 +8,11 @@ trait TranslatesModels {
 
     public function translate($attr = null, $objectName = null, $tag = null, $options = []) {
         $attr = $attr ?? $this->attr;
-        $objectName = $objectName ?? $this->objectName;
+        $prefix = $this->objectLangPrefix($objectName ?? $this->objectName);
         $tag = $tag ?? Str::snake(class_basename($this));
         $searchKeys = [
-            Str::plural($objectName) . '.' . $tag . '.' . $attr,
-            Str::plural($objectName) . '.' . $attr
+            $prefix . '.' . $tag . '.' . $attr,
+            $prefix . '.' . $attr
         ];
 
         foreach ($searchKeys as $key) {
@@ -23,5 +23,16 @@ trait TranslatesModels {
         }
 
         return Str::title(str_replace('_', ' ', $attr));
+    }
+
+    protected function objectLangPrefix($name) {
+        $temp = preg_replace('/\]\[|[^-a-zA-Z0-9_\-:.]/', '.', $name);
+        $temp = preg_replace('/\.$/', '', $temp);
+        $parts = explode('.', $temp);
+        if (count($parts) > 0) {
+            $parts[0] = Str::plural($parts[0]);
+        }
+
+        return implode('.', $parts);
     }
 }

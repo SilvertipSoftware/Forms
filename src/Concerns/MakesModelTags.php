@@ -55,6 +55,12 @@ trait MakesModelTags
         return $tag->render();
     }
 
+    public function radioButtonWithObject($object, $method, $value, $options = [])
+    {
+        $tag = new Tags\RadioButton($object, $method, $this, $value, $options);
+        return $tag->render();
+    }
+
     public function telFieldWithObject($object, $method, $options = []) {
         $tag = new Tags\TelField($object, $method, $this, $options);
         return $tag->render();

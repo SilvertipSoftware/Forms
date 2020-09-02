@@ -110,6 +110,17 @@ class FormBuilderTest extends TestCase
         $this->assertStringContainsString('checked="checked"', $result);
     }
 
+    public function testItBuildsRadioButtonsCorrectly()
+    {
+        $result = $this->builder->radioButton('is_published', 1);
+
+        $this->assertInstanceOf(HtmlString::class, $result);
+        $this->assertSeeTag('input', $result);
+        $this->assertStringContainsString('name="post[is_published]"', $result);
+        $this->assertStringContainsString('type="radio"', $result);
+        $this->assertStringContainsString('checked="checked"', $result);
+    }
+
     public function testItBuildsLabelsCorrectly()
     {
         $result = $this->builder->label('is_published');

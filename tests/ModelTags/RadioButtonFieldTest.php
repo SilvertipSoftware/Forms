@@ -58,6 +58,18 @@ class RadioButtonFieldTest extends TestCase
         $this->assertStringContainsString('value="100"', $result);
     }
 
+    public function testItProvidesUniqueIdsAndSameName()
+    {
+        $result = \Form::radioButtonWithObject('post', 'state', 1, $this->options);
+        $result2 = \Form::radioButtonWithObject('post', 'state', 2, $this->options);
+
+        $this->assertStringContainsString('id="post_state_1"', $result);
+        $this->assertStringContainsString('id="post_state_2"', $result2);
+
+        $this->assertStringContainsString('name="post[state]"', $result);
+        $this->assertStringContainsString('name="post[state]"', $result2);
+    }
+
     public function testCanCheckExplicitly()
     {
         $options = array_merge($this->options, [

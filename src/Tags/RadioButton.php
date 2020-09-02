@@ -22,7 +22,7 @@ class RadioButton extends Base {
             $options['checked'] = 'checked';
         }
 
-        $this->addDefaultNameAndId($options);
+        $this->addDefaultNameAndIdForValue($this->tagValue, $options);
 
         return $this->tag('input', $options);
     }

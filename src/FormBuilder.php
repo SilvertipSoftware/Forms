@@ -77,6 +77,20 @@ class FormBuilder {
         );
     }
 
+    public function radioButton($method, $value, $options = []) {
+        if (is_array($value) && empty($options)) {
+            $options = $value;
+            $value = 1;
+        }
+
+        return $this->template->radioButtonWithObject(
+            $this->objectName,
+            $method,
+            $value,
+            $this->objectify($options)
+        );
+    }
+
     public function textArea($method, $text = null, $options = []) {
         if (is_array($text)) {
             $options = $text;

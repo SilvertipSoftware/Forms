@@ -141,9 +141,7 @@ trait TagHelper {
 
             private const TAG_PREFIXES = ['aria', 'data', 'v'];
 
-            private const PRE_CONTENT_STRINGS = [
-                'textarea' => "\n"
-            ];
+            private const PRE_CONTENT_STRINGS = [];
 
             private const VOID_ELEMENTS = [
                 'area', 'base', 'br', 'col', 'embed', 'hr', 'img', 'input',

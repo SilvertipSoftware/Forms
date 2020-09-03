@@ -21,5 +21,6 @@ class TextAreaTest extends TestCase
         $result = \Form::textAreaWithObject('post', 'content');
 
         $this->assertStringContainsString('</textarea>', $result);
+        $this->assertStringNotContainsString("\n", $result);
     }
 }

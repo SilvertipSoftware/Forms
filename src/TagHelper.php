@@ -65,9 +65,7 @@ trait TagHelper {
                 }
 
                 return new HtmlString(
-                    '<' . $name . $tagOptions . '>'
-                    . Arr::get(static::PRE_CONTENT_STRINGS, $name, '') . $content
-                    . '</' . $name . '>'
+                    '<' . $name . $tagOptions . '>' . $content . '</' . $name . '>'
                 );
             }
 
@@ -140,10 +138,6 @@ trait TagHelper {
             ];
 
             private const TAG_PREFIXES = ['aria', 'data', 'v'];
-
-            private const PRE_CONTENT_STRINGS = [
-                'textarea' => "\n"
-            ];
 
             private const VOID_ELEMENTS = [
                 'area', 'base', 'br', 'col', 'embed', 'hr', 'img', 'input',

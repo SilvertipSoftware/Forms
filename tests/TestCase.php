@@ -25,10 +25,10 @@ class TestCase extends OrchestraTestCase
     }
 
     protected function assertSeeTag($tag, $result) {
-        $this->assertRegExp('/\<' . $tag . '([^a-z]|\/\>)/', $result);
+        $this->assertMatchesRegularExpression('/\<' . $tag . '([^a-z]|\/\>)/', $result);
     }
 
     protected function assertSeeTagClose($tag, $result) {
-        $this->assertRegExp('/<?\/' . $tag . '>/', $result);
+        $this->assertMatchesRegularExpression('/<?\/' . $tag . '>/', $result);
     }
 }

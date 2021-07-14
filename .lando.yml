@@ -5,7 +5,6 @@ config:
 
 services:
   appserver:
-    type: php:7.4
     xdebug: true
 
 tooling:

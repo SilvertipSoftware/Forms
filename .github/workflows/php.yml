@@ -9,13 +9,13 @@ jobs:
 
     steps:
     - uses: actions/checkout@v1
+      with:
+        php-version: '7.4'
 
     - name: Validate composer.json and composer.lock
       run: composer validate
 
     - name: Install dependencies
-      with:
-        php-version: '7.4'
       run: composer install --prefer-dist --no-progress
 
     - name: Run test suite

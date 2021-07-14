@@ -14,6 +14,8 @@ jobs:
       run: composer validate
 
     - name: Install dependencies
+      with:
+        php-version: '7.4'
       run: composer install --prefer-dist --no-progress
 
     - name: Run test suite

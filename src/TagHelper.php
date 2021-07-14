@@ -64,6 +64,9 @@ trait TagHelper {
                     $content = e($content);
                 }
 
+                // Remove new lines and carriage returns.
+                $content = str_replace(["\n", "\r"], "&#10;", str_replace("\r\n", "\n", $content));
+
                 return new HtmlString(
                     '<' . $name . $tagOptions . '>'
                     . Arr::get(static::PRE_CONTENT_STRINGS, $name, '') . $content

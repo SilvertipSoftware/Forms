@@ -66,6 +66,11 @@ trait MakesModelTags
         return $tag->render();
     }
 
+    public function dateFieldWithObject($object, $method, $options = []) {
+        $tag = new Tags\DateField($object, $method, $this, $options);
+        return $tag->render();
+    }
+
     public function collectionSelectWithObject(
         $object,
         $method,

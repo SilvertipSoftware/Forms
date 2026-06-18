@@ -8,8 +8,12 @@ use Illuminate\Support\Str;
 trait ModelUtils {
 
     protected function convertToModel($obj) {
-        if (method_exists($obj, 'toModel')) {
-            return call_user_func([$obj, 'toModel']);
+        $isObjectOrString = is_object($obj) || is_string($obj);
+
+        if ($isObjectOrString) {
+            if (method_exists($obj, 'toModel')) {
+                return call_user_func([$obj, 'toModel']);
+            }
         }
 
         return $obj;

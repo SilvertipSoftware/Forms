@@ -57,12 +57,16 @@ class Base {
     }
 
     protected function result($object, $attr) {
-        if (method_exists($object, $attr)) {
-            return call_user_func([$object, $attr]);
-        } elseif ($attr[0] != '_' && method_exists($object, Str::camel($attr))) {
-            return call_user_func([$object, Str::camel($attr)]);
-        } elseif (is_object($object)) {
-            return $object->{$attr};
+        $isObjectOrString = is_object($object) || is_string($object);
+
+        if ($isObjectOrString) {
+            if (method_exists($object, $attr)) {
+                return call_user_func([$object, $attr]);
+            } elseif ($attr[0] != '_' && method_exists($object, Str::camel($attr))) {
+                return call_user_func([$object, Str::camel($attr)]);
+            } elseif (is_object($object)) {
+                return $object->{$attr};
+            }
         } else {
             return Arr::get($object, $attr);
         }

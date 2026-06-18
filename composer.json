@@ -15,7 +15,7 @@
         "silvertipsoftware/rest-router": "^0.1.0"
     },
     "require-dev": {
-        "orchestra/testbench": "^4.0"
+        "orchestra/testbench": "^6.0"
     },
     "scripts": {
         "test": "vendor/bin/phpunit"
@@ -28,6 +28,15 @@
     "autoload-dev": {
         "psr-4": {
             "SilvertipSoftware\\Forms\\Tests\\": "tests"
+        }
+    },
+    "config": {
+        "policy": {
+            "advisories": {
+                "ignore": {
+                    "laravel/framework": "Allow support for older Laravel versions."
+                }
+            }
         }
     }
 }

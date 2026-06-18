@@ -8,9 +8,9 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-    - uses: actions/checkout@v1
+    - uses: actions/checkout@v6
       with:
-        php-version: '7.4'
+        php-version: '8.1'
 
     - name: Validate composer.json and composer.lock
       run: composer validate
